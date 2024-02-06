@@ -4,6 +4,7 @@ This module defines the base class for all created classes
 """
 
 from datetime import datetime
+from importlib import import_module
 from uuid import uuid4
 
 class BaseModel:
@@ -65,3 +66,47 @@ class BaseModel:
             clone['created_at'] = clone['created_at'].isoformat()
 
         return clone
+    
+    
+    def save(self, db=False):
+        """
+        Save object to memory or database
+
+        Return:
+            True if successful else return False
+
+        """
+        storage = import_module("__init__", package="Cook4Me")
+        storage = storage.storage
+
+        if db is True: #  load object to database
+            stats = storage.load(self, todb=True)
+
+        else:
+            stats = storage.load(self) #  load object to memory only
+
+        return stats
+    
+    def fetch(self, fetch_id=None):
+        """
+        Retrive data from database
+
+        Args:
+            fetch_id (str): id of object if querying for specific object 
+
+        Return:
+            Document if a specific object id is specified.
+            Else return all documents within a database collection
+            with the name of collection equal to the classname
+            of the object.
+        """
+        storage = import_module("__init__", package="Cook4Me")
+        storage = storage.storage
+
+        if fetch_id is not None:
+            found = storage.reload(self, fetch_id)
+
+        else:
+            found = storage.reload(self)
+
+        return found

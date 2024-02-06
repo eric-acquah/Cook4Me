@@ -73,6 +73,39 @@ class StorageDb:
         
         else:
             return False # if no object was found in memory
+        
+        
+    def reload(self, obj, search_id=None):
+        """
+        Retrive data from database. If search_id is specified,
+        get that document, else return the whole collection
+        of that object
+
+        Args:
+            obj (object): object whose class database collection to search
+            search_id (str): id to retrive a specific document
+
+        Return:
+            the quried document
+        """
+
+        collection = StorageDb.db[f"{obj.__class__.__name__}"] # Retrive collection according to class name
+
+        if search_id is not None:
+            try:
+                found_doc = collection.find_one({"id": search_id})
+                return found_doc
+            except Exception as err:
+                print(f"There was an error retriving the document: ERROR => {err}")
+        else:
+            try:
+                found_coll = collection.find()
+                return found_coll
+            except Exception as err:
+                print(f"There was an error retriving the documents: ERROR => {err}")
+
+
+
 
 
 
