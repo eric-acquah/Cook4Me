@@ -4,7 +4,7 @@ users
 
 """
 
-from base import BaseModel
+from models.base import BaseModel
 from shortuuid import uuid
 
 class UserBase(BaseModel):
