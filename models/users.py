@@ -64,6 +64,15 @@ class UserBase(BaseModel):
         """
 
         return self.__user_credentials
+    
+    
+    def usrInfo(self):
+        """
+        Get every info about a user
+
+        """
+
+        return self.dictify()
 
     
 ## Test ##
