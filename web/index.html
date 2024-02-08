@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="assets/styles/style.css">
+</head>
+<body>
+    <section>
+        <div class="circle"></div>
+        <header>
+            <a href="#"><img src="logo.jpeg" class="logo"></a>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Menu</a></li>
+                <li><a href="#">What's New</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </header>
+        <div class="content">
+            <div class="textBox">
+                <h2>It's not all about cooking<br>We offer the best here in <span>Cook4Me</span></h2>
+                <p>You can also learn how to make different dishes across the continent</p>
+                <a href="#">Learn More</a>
+            </div>
+            <div class="imgBox">
+                <img src="theme 2.jpeg" class="theme 2">
+            </div>
+        </div>
+        <ul>class="thumb">
+            <li><img src="theme 1.jpeg" onclick="imgSlider('img1.jpeg');changeCircleColor('#017143')"></li>
+            <li><img src="theme 2.jpeg" onclick="imgSlider('img2.jpeg');changeCircleColor('#eb7495')"</li>
+            <li><img src="theme 3.jpeg" onclick="imgSlider('img3.jpeg');changeCircleColor('#d75b1')"</li>
+        </ul>
+        <ul class="sci">
+            <li><a href="#"><img src="facebook icon.jpeg"></a></li>
+            <li><a href="#"><img src="twitter icon.jpeg"></a></li>
+            <li><a href="#"><img src="instagram icon.jpeg"></a></li>
+        </ul>
+    </section>
+
+    <script type="text/javascript">
+        function imgSlider(anything){
+            document.querySelector('.Cook4Me').src = anything;
+        }
+        function changeCircleColor(color){
+            const circle = document.querySelector('.circle');
+            circle.style.background = color;
+        }
+    </script>
+</body>
+</html>
