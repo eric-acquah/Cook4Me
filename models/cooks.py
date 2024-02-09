@@ -5,7 +5,6 @@ who are cooks on the platform
 """
 
 from models.users import UserBase
-from importlib import import_module
 
 
 class CooksModel(UserBase):
