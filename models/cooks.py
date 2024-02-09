@@ -5,6 +5,7 @@ who are cooks on the platform
 """
 
 from models.users import UserBase
+from importlib import import_module
 
 
 class CooksModel(UserBase):
@@ -78,3 +79,40 @@ class CooksModel(UserBase):
             self.rank = 4
         elif self.completed_orders >= 15:
             self.rank = 5
+
+
+    def createPost(self, head, text, media_path=""):
+        """
+        Creates and saves a blog post
+
+        Args:
+            head (str): title of post
+            text (str): text content of post
+            media_path (str): path to media file
+
+        Return:
+            True if successful else return False
+        """
+
+        from models.posts import PostModel
+
+        post = PostModel()
+
+        usr = self.getUser()
+
+        author = {
+            'name': usr['UserName'],
+            'id': usr['UserId']
+        }
+
+        content = {
+            'text': text,
+            'media': media_path
+        }
+
+        stats = post.makePost(author, head, content)
+
+        if stats:
+            result = post.save()
+
+        return result
