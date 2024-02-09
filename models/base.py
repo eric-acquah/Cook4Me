@@ -79,6 +79,8 @@ class BaseModel:
         storage = import_module("__init__", package="Cook4Me")
         storage = storage.storage
 
+        self.updated_at = datetime.now() #  update the `updated_at` attribute to reflect correct update time2
+
         if db is True: #  load object to database
             stats = storage.load(self, todb=True)
 
@@ -86,6 +88,7 @@ class BaseModel:
             stats = storage.load(self) #  load object to memory only
 
         return stats
+    
     
     def fetch(self, fetch_id=None):
         """
