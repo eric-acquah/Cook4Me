@@ -105,6 +105,36 @@ class StorageDb:
                 print(f"There was an error retriving the documents: ERROR => {err}")
 
 
+    def remove(self, obj):
+        """
+        Erase objects from memory and database
+
+        Args:
+            obj (object): object to erase
+
+        Return:
+            True is successful else return False
+        """
+
+        collection = StorageDb.db[f"{obj.__class__.__name__}"] # Retrive collection according to class name
+
+        if obj:
+            collection.delete_one({'id': obj.id})
+            i = 0
+
+            for i in range(len(StorageDb.__memCache)):
+                if StorageDb.__memCache[i] is obj:
+                    del StorageDb.__memCache[i]
+                    break
+                i += 1
+            return True
+        else:
+            return False
+
+
+            
+
+
 
 
 
