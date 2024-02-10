@@ -113,3 +113,20 @@ class BaseModel:
             found = storage.reload(self)
 
         return found
+    
+
+    def destroy(self):
+        """
+        Remove object from database
+
+        Return:
+            True if successful else return False
+        """
+        storage = import_module("__init__", package="Cook4Me")
+        storage = storage.storage
+
+        stats = storage.remove(self)
+
+        return stats
+
+
