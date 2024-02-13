@@ -94,12 +94,16 @@ class StorageDb:
         if search_id is not None:
             try:
                 found_doc = collection.find_one({"id": search_id})
-                return found_doc
+                return StorageDb.stripObjectId(found_doc)
             except Exception as err:
                 print(f"There was an error retriving the document: ERROR => {err}")
         else:
             try:
-                found_coll = collection.find()
+                cursor = collection.find()
+                found_coll = []
+
+                for cur in cursor:
+                    found_coll.append(StorageDb.stripObjectId(cur))
                 return found_coll
             except Exception as err:
                 print(f"There was an error retriving the documents: ERROR => {err}")
@@ -130,8 +134,47 @@ class StorageDb:
             return True
         else:
             return False
+        
+    
+    def modify(self, obj):
+        """
+        Update an object in database
+
+        Args:
+            obj (object): the modified object to be used as update
+
+        Return:
+            Returns a boolen acknowledgement from server
+        """
+
+        if obj:
+            collection = StorageDb.db[f"{obj['__class__']}"] # Retrive collection according to class name
+
+            ack = collection.replace_one({'id': obj['id']}, obj)
+
+            return ack.acknowledged #  Returns the acknowledgement
 
 
+    @staticmethod
+    def stripObjectId(docs):
+        """
+        Strips off `_id` attributes from db quuery response
+
+        Args:
+            docs: dictionary to work on
+
+        Return:
+            dictionary without `_id` attribute
+        """
+
+        new_obj = {}
+
+        if docs:
+            for key in docs:               
+                if key != '_id':
+                    new_obj[key] = docs[key]
+            
+            return new_obj
             
 
 
