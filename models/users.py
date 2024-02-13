@@ -35,12 +35,13 @@ class UserBase(BaseModel):
 
             self.user_contact = {
                 'phone': None,
-                'WhatsappNum': None,
+                'whatsappNum': None,
                 'email': None
             }
 
             self.user_location = None
             self.user_gender = None
+            self.user_age = None
 
     def setUser(self, name, passwd):
         """
