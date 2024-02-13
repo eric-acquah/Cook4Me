@@ -114,6 +114,22 @@ class BaseModel:
 
         return found
     
+    
+    def update(self):
+        """
+        Updates the object with new attributes
+
+        Returns:
+            A boolen ackknowledgement
+        """
+
+        storage = import_module("__init__", package="Cook4Me")
+        storage = storage.storage
+
+        self.updated_at = datetime.now()
+
+        return storage.modify(self.dictify())       
+    
 
     def destroy(self):
         """
