@@ -112,6 +112,8 @@ class CooksModel(UserBase):
         stats = post.makePost(author, head, content)
 
         if stats:
-            result = post.save()
+            result = post.save(db=True)
+
+            self.recentPost_info = post.dictify()
 
         return result
