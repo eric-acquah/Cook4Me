@@ -114,6 +114,29 @@ class BaseModel:
 
         return found
     
+
+    def fetch_many(self, fetch_id, key):
+        """
+        Retrive related data from database
+
+        Args:
+            fetch_id (str): id of object to find related objects.
+            eg. id of cook object in order to find all post created
+            by that cook. 
+
+            key (str): query filter to use for the search
+
+        Return:
+            all documents related to the object
+        """
+        storage = import_module("__init__", package="Cook4Me")
+        storage = storage.storage
+
+        if fetch_id:
+            found = storage.reload_many(self, fetch_id, key)
+
+            return found
+    
     
     def update(self):
         """
