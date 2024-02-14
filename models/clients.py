@@ -36,4 +36,6 @@ class ClientModel(UserBase):
 
         stats = order.createOrder(cookid, head, desc)
 
+        self.recentOrder = order.dictify()
+
         return stats
