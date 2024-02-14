@@ -11,6 +11,8 @@ from flask import request, make_response, abort, jsonify
 
 client = ClientModel()
 
+
+# Get all clients
 @app_bp.route('/clients', methods=['GET'])
 def get_clients():
     """
@@ -23,6 +25,7 @@ def get_clients():
     return docs
 
 
+# Get a client by id 
 @app_bp.route('/clients/<client_id>', methods=['GET'])
 def get_clientid(client_id):
     """
@@ -40,6 +43,7 @@ def get_clientid(client_id):
     return found_obj
 
 
+# Create a new client
 @app_bp.route('/clients', methods=['POST'])
 def create_client():
     """
@@ -73,6 +77,7 @@ def create_client():
         return make_response(new_client.usrInfo(), 201)
     
 
+# Update a client
 @app_bp.route('/clients/<client_id>', methods=['PUT'])
 def upadate_client(client_id):
     """
@@ -120,6 +125,7 @@ def upadate_client(client_id):
         return make_response(update.usrInfo(), 200)
     
 
+# Delete a client
 @app_bp.route('/clients/<client_id>', methods=['DELETE'])
 def delete_client(client_id):
     """

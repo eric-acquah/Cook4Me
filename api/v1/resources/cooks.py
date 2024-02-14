@@ -10,6 +10,8 @@ from models.cooks import CooksModel
 
 global_cook = CooksModel()
 
+
+# Get all cooks
 @app_bp.route('/cooks', methods=['GET'])
 def get_cooks():
     """
@@ -25,6 +27,7 @@ def get_cooks():
     return found_objs
 
 
+# Get cook by id
 @app_bp.route('/cooks/<cook_id>', methods=['GET'])
 def get_cookid(cook_id):
     """
@@ -42,6 +45,7 @@ def get_cookid(cook_id):
     return found_obj
 
 
+# Create a new cook
 @app_bp.route('/cooks', methods=['POST'])
 def create_cook():
     """
@@ -78,6 +82,7 @@ def create_cook():
         return make_response(new_cook.usrInfo(), 201)
     
 
+# Update a cook
 @app_bp.route('/cooks/<cook_id>', methods=['PUT'])
 def update_cook(cook_id):
     """
@@ -128,6 +133,7 @@ def update_cook(cook_id):
         return make_response(update.usrInfo(), 200)
 
 
+# Delete a cook
 @app_bp.route('/cooks/<cook_id>', methods=['DELETE'])
 def delete_cook(cook_id):
     """
