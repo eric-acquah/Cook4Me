@@ -22,14 +22,15 @@ class OrderModel(BaseModel):
         
         super().__init__(*args, **kwargs)
 
-        self.client_id = None
-        self.cook_id = None
-        self.order_id = self.id
-        self.request = {
-            'request_head': "",
-            'request_desc': ""
-        }
-        self.order_status = OrderModel.status[0]
+        if not kwargs:
+            self.client_id = None
+            self.cook_id = None
+            self.order_id = self.id
+            self.request = {
+                'request_head': "",
+                'request_desc': ""
+            }
+            self.order_status = OrderModel.status[0]
 
 
     def createOrder(self, cookid, order_head, order_desc=""):
