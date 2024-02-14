@@ -109,6 +109,33 @@ class StorageDb:
                 print(f"There was an error retriving the documents: ERROR => {err}")
 
 
+    def reload_many(self, obj, search_id, search_key):
+        """
+        Retrive documents from database that relate to a particular
+        object
+
+        Args:
+            obj (object): object whose class database collection to search
+            search_id (str): id to retrive documents of a specific object 
+
+        Return:
+            the quried document
+        """
+
+        collection = StorageDb.db[f"{obj.__class__.__name__}"] # Retrive collection according to class name
+
+        if search_id:
+            try:
+                cursor = collection.find({search_key: search_id})
+                found_coll = []
+
+                for cur in cursor:
+                    found_coll.append(StorageDb.stripObjectId(cur))
+                return found_coll
+            except Exception as err:
+                print(f"There was an error retriving the documents: ERROR => {err}")
+
+
     def remove(self, obj):
         """
         Erase objects from memory and database
