@@ -94,15 +94,115 @@ class StorageDb:
         if search_id is not None:
             try:
                 found_doc = collection.find_one({"id": search_id})
-                return found_doc
+                return StorageDb.stripObjectId(found_doc)
             except Exception as err:
                 print(f"There was an error retriving the document: ERROR => {err}")
         else:
             try:
-                found_coll = collection.find()
+                cursor = collection.find()
+                found_coll = []
+
+                for cur in cursor:
+                    found_coll.append(StorageDb.stripObjectId(cur))
                 return found_coll
             except Exception as err:
                 print(f"There was an error retriving the documents: ERROR => {err}")
+
+
+    def reload_many(self, obj, search_id, search_key):
+        """
+        Retrive documents from database that relate to a particular
+        object
+
+        Args:
+            obj (object): object whose class database collection to search
+            search_id (str): id to retrive documents of a specific object 
+
+        Return:
+            the quried document
+        """
+
+        collection = StorageDb.db[f"{obj.__class__.__name__}"] # Retrive collection according to class name
+
+        if search_id:
+            try:
+                cursor = collection.find({search_key: search_id})
+                found_coll = []
+
+                for cur in cursor:
+                    found_coll.append(StorageDb.stripObjectId(cur))
+                return found_coll
+            except Exception as err:
+                print(f"There was an error retriving the documents: ERROR => {err}")
+
+
+    def remove(self, obj):
+        """
+        Erase objects from memory and database
+
+        Args:
+            obj (object): object to erase
+
+        Return:
+            True is successful else return False
+        """
+
+        collection = StorageDb.db[f"{obj.__class__.__name__}"] # Retrive collection according to class name
+
+        if obj:
+            collection.delete_one({'id': obj.id})
+            i = 0
+
+            for i in range(len(StorageDb.__memCache)):
+                if StorageDb.__memCache[i] is obj:
+                    del StorageDb.__memCache[i]
+                    break
+                i += 1
+            return True
+        else:
+            return False
+        
+    
+    def modify(self, obj):
+        """
+        Update an object in database
+
+        Args:
+            obj (object): the modified object to be used as update
+
+        Return:
+            Returns a boolen acknowledgement from server
+        """
+
+        if obj:
+            collection = StorageDb.db[f"{obj['__class__']}"] # Retrive collection according to class name
+
+            ack = collection.replace_one({'id': obj['id']}, obj)
+
+            return ack.acknowledged #  Returns the acknowledgement
+
+
+    @staticmethod
+    def stripObjectId(docs):
+        """
+        Strips off `_id` attributes from db quuery response
+
+        Args:
+            docs: dictionary to work on
+
+        Return:
+            dictionary without `_id` attribute
+        """
+
+        new_obj = {}
+
+        if docs:
+            for key in docs:               
+                if key != '_id':
+                    new_obj[key] = docs[key]
+            
+            return new_obj
+            
 
 
 

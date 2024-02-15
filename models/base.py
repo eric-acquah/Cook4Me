@@ -79,6 +79,8 @@ class BaseModel:
         storage = import_module("__init__", package="Cook4Me")
         storage = storage.storage
 
+        self.updated_at = datetime.now() #  update the `updated_at` attribute to reflect correct update time2
+
         if db is True: #  load object to database
             stats = storage.load(self, todb=True)
 
@@ -86,6 +88,7 @@ class BaseModel:
             stats = storage.load(self) #  load object to memory only
 
         return stats
+    
     
     def fetch(self, fetch_id=None):
         """
@@ -110,3 +113,59 @@ class BaseModel:
             found = storage.reload(self)
 
         return found
+    
+
+    def fetch_many(self, fetch_id, key):
+        """
+        Retrive related data from database
+
+        Args:
+            fetch_id (str): id of object to find related objects.
+            eg. id of cook object in order to find all post created
+            by that cook. 
+
+            key (str): query filter to use for the search
+
+        Return:
+            all documents related to the object
+        """
+        storage = import_module("__init__", package="Cook4Me")
+        storage = storage.storage
+
+        if fetch_id:
+            found = storage.reload_many(self, fetch_id, key)
+
+            return found
+    
+    
+    def update(self):
+        """
+        Updates the object with new attributes
+
+        Returns:
+            A boolen ackknowledgement
+        """
+
+        storage = import_module("__init__", package="Cook4Me")
+        storage = storage.storage
+
+        self.updated_at = datetime.now()
+
+        return storage.modify(self.dictify())       
+    
+
+    def destroy(self):
+        """
+        Remove object from database
+
+        Return:
+            True if successful else return False
+        """
+        storage = import_module("__init__", package="Cook4Me")
+        storage = storage.storage
+
+        stats = storage.remove(self)
+
+        return stats
+
+
