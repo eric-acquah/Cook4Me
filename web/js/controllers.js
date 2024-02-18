@@ -39,4 +39,16 @@ angular.module('liveApp.controllers', []).
   /* Register Controller */
   controller('RegisterPageController', function($scope, restAPIservice) {
    
+  }).
+  /* About Controller */
+  controller('AboutPageController', function($scope, restAPIservice) {
+   
+  }).
+  /* Feed Controller */
+  controller('FeedPageController', function($scope, restAPIservice) {
+   
+  }).
+  /* Contact Controller */
+  controller('ContactPageController', function($scope, restAPIservice) {
+   
   });

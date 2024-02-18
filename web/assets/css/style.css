@@ -529,3 +529,75 @@ body{
     object-fit: cover;
     object-position: center;
 }
+
+
+.cardcontainer{
+    width: 100%;
+    height: 500px;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    transition: 0.3s;
+}
+.cardcontainer:hover{
+    box-shadow: 0 0 45px gray;
+}
+.photo{
+    height: 15rem;
+    width: 100%;
+}
+.photo img{
+    height: 100%;
+    width: 100%;
+}
+.txt1{
+    margin: auto;
+    text-align: center;
+    font-size: 1em;
+}
+.content{
+    width: 80%;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    top: -33px;
+}
+.photos{
+    width: 90px;
+    height: 30px;
+    background-color: #FEA116;
+    color: white;
+    position: relative;
+    top: -30px;
+    padding-left: 10px;
+    font-size: 20px;
+}
+.txt4{
+    font-size:1.3em;
+    font-weight: 600;
+    position: relative;
+    top: 33px;
+    padding: 1rem 0;
+}
+
+.txt2{
+    position: relative;
+    top: 10px;
+}
+.cardcontainer small{
+    font-size: 0.7em;
+    font-weight: 600;
+    color: #FEA116;
+}
+.cardcontainer:hover > .photo{
+    height: 15rem;
+    animation: move1 0.5s ease both;
+}
+@keyframes move1{
+    0%{height: 300px}
+    100%{height: 15rem}
+}
+.cardcontainer:hover > .content{
+    height: 15rem;
+}
