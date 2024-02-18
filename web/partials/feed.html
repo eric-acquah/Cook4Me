@@ -17,23 +17,15 @@
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <h5 class="section-title ff-secondary text-center text-primary fw-normal">News Feed</h5>
                     <div class="row">
-                        <div class="col-sm-6 center">
-                            <div class="input-group mb-3 m-4">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="search feed"
-                                    aria-label="Button"
-                                    aria-describedby=""
-                                />
-                                <button class="btn btn-outline-secondary" title="search" type="button" id="">
-                                    <i class="la la-search"></i>
-                                </button>
+                        <div class="col-sm-6 center mt-3">
+                            <div class="position-relative mx-auto">
+                                <input class="form-control border-primary w-100 py-3 ps-4 pe-5" type="text" placeholder="Search feed...">
+                                <button title="search" type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2"><i class="la la-search"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row g-4 mt-5">
+                <div class="row g-4 mt-3">
                     <div class="col-sm-3" ng:repeat="i in [1,2,3,4,5,6,7,8]">
                         <div class="cardcontainer">
                             <div class="photo">
