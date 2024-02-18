@@ -538,6 +538,7 @@ body{
     margin-left: auto;
     margin-right: auto;
     transition: 0.3s;
+    cursor: pointer;
 }
 .cardcontainer:hover{
     box-shadow: 0 0 45px gray;
