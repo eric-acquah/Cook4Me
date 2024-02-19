@@ -1,0 +1,46 @@
+<section class="about-page" ng:controller="FeedPageController">
+    <div class="container-xxl py-1 bg-dark hero-header mb-5">
+        <div class="container text-center my-5 pt-5 pb-4">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Feeds</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center text-uppercase">
+                    <li class="breadcrumb-item"><a href="#!">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#!feed">Feeds</a></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Team Start -->
+        <div class="container-xxl pt-5 pb-3">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">News Feed</h5>
+                    <div class="row">
+                        <div class="col-sm-6 center mt-3">
+                            <div class="position-relative mx-auto">
+                                <input class="form-control border-primary w-100 py-3 ps-4 pe-5" type="text" placeholder="Search feed...">
+                                <button title="search" type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2"><i class="la la-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-4 mt-3">
+                    <div class="col-sm-3" ng:repeat="i in [1,2,3,4,5,6,7,8]">
+                        <div class="cardcontainer">
+                            <div class="photo">
+                                <img alt="post" src="https://images.pexels.com/photos/2346006/pexels-photo-2346006.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500">
+                                <div class="photos">Photos</div>
+                            </div>
+                            <div class="content">
+                                <p class="txt4">City Lights In Newyork</p>
+                                <p class="txt2">New York, the largest city in the U.S., is an architectural marvel with plenty of historic monuments, magnificent buildings...</p>
+                                <small>12hr Ago - 12 Feb, 2024</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Team End -->
+</section>
