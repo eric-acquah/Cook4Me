@@ -1,0 +1,81 @@
+@font-face {
+    font-family: 'Kumbh Sans';
+    src: url('KumbhSans-Regular.woff2') format('woff2'),
+        url('KumbhSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Kumbh Sans';
+    src: url('KumbhSans-SemiBold.woff2') format('woff2'),
+        url('KumbhSans-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Kumbh Sans';
+    src: url('KumbhSans-Medium.woff2') format('woff2'),
+        url('KumbhSans-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Kumbh Sans';
+    src: url('KumbhSans-Light.woff2') format('woff2'),
+        url('KumbhSans-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Kumbh Sans';
+    src: url('KumbhSans-Black.woff2') format('woff2'),
+        url('KumbhSans-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Kumbh Sans';
+    src: url('KumbhSans-ExtraBold.woff2') format('woff2'),
+        url('KumbhSans-ExtraBold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Kumbh Sans';
+    src: url('KumbhSans-ExtraLight.woff2') format('woff2'),
+        url('KumbhSans-ExtraLight.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Kumbh Sans';
+    src: url('KumbhSans-Bold.woff2') format('woff2'),
+        url('KumbhSans-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Kumbh Sans';
+    src: url('KumbhSans-Thin.woff2') format('woff2'),
+        url('KumbhSans-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
