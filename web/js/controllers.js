@@ -5,49 +5,44 @@ angular.module('liveApp.controllers', []).
     $scope.driversList = [];
     $scope.allCooks = [];
     $scope.blankName = "Cook Name";
-    $scope.blankRank = "Rank";
+    $scope.totalClients = 20;
+    $scope.defaultNum = 50;
     let cooks_endpoint = "cooks";
 
     FlaskApiService.getData(cooks_endpoint).then(function(response){
         for (let data in response){
             $scope.allCooks.push(response[data]);
+
         }   
         
-        // If there are no objects retrived from the database set 8 dummy values to display in the view
+    // If there are no objects retrived from the database set 8 dummy values to display in the view
+    $scope.cook = [];
 
-    if (!$scope.allCooks.length){
-        $scope.cook = [{
-            'name': "Cook Name",
-            'rank': "Rank"
-        }];
+    // Loops over each cook object in allCooks and creates a more flexible object for each 
+    for (let obj in $scope.allCooks){
 
-        for (let i = 0; i <= 8; i++){
-            $scope.cook.push({...$scope.cook[0]}) // creating 7 more dummy objects
-        }
+        keep = {}; // create a new object through each iteration
 
-    } else {
-        $scope.cook = [];
+        for (let key in $scope.allCooks[obj]){
 
-        // Loops over each cook object in allCooks and creates a more flexible object for each 
-        for (let obj in $scope.allCooks){
+            if (key == "_UserBase__user_credentials"){
+                keep.name = $scope.allCooks[obj][key].UserName;
+                keep.id = $scope.allCooks[obj][key].UserId;
+                keep.passwd = $scope.allCooks[obj][key].UserPasswd;
 
-            keep = {}; // create a new object through each iteration
-
-            for (let key in $scope.allCooks[obj]){
-
-                if (key == "_UserBase__user_credentials"){
-                    keep.name = $scope.allCooks[obj][key].UserName;
-                    keep.id = $scope.allCooks[obj][key].UserId;
-                    keep.passwd = $scope.allCooks[obj][key].UserPasswd;
-
-                } else {
-                    keep[key] = $scope.allCooks[obj][key]
-                }
+            } else {
+                keep[key] = $scope.allCooks[obj][key]
             }
-            $scope.cook.push(keep)          
         }
-        console.log($scope.cook)
+        $scope.cook.push(keep)          
     }
+
+    //If cooks objects are not loaded from database set default totalCooks value to 50
+    if (!$scope.cook.length){
+        $scope.totalCooks = 50;
+    };
+
+    $scope.totalCooks = $scope.cook.length;
         
     }
     );

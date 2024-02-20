@@ -3,9 +3,14 @@
         <div class="container my-5 py-5">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6 text-center text-lg-start">
-                    <h1 class="display-3 text-white animated slideInLeft">Enjoy Our<br>Delicious Meal</h1>
-                    <p class="text-white animated slideInLeft mb-4 pb-2">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                    <a href="" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Book A Table</a>
+                    <h1 class="display-3 text-white animated slideInLeft">Find your<br>favorite cook</h1>
+                    <p class="text-white animated slideInLeft mb-4 pb-2">
+                        Want to book a cook for a personalized cuisine?
+                        Look no futher, you are at the right place at the right time. 
+                        On Cook4Me, you will discover top-notch and experienced cooks who offer five-star services at a reasonable
+                        price according to your preferences.
+                    </p>
+                    <a href="" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Discover A Cook</a>
                 </div>
                 <div class="col-lg-6 text-center text-lg-end overflow-hidden">
                     <img alt="" class="img-fluid" src="assets/img/hero.png" alt="">
@@ -162,24 +167,24 @@
                 <div class="col-lg-6">
                     <h5 class="section-title ff-secondary text-start text-primary fw-normal">About Us</h5>
                     <h1 class="mb-4">Welcome to <i class="la la-utensils text-primary me-2"></i>{{appName}}</h1>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos erat ipsum et lorem et sit, sed stet lorem sit.</p>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                    <p class="mb-4">This platform connects skilled cooks with clients seeking delicious, home-cooked meals.</p>
+                    <p class="mb-4">We've designed this space to make finding the right match quick and hassle-free. All you need to do is register now to start making those easy connections!</p>
                     <div class="row g-4 mb-4">
                         <div class="col-sm-6">
                             <div class="d-flex align-items-center border-start border-5 border-primary px-3">
-                                <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">15</h1>
+                                <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">{{totalClients}}</h1>
                                 <div class="ps-4">
-                                    <p class="mb-0">Years of</p>
-                                    <h6 class="text-uppercase mb-0">Experience</h6>
+                                    <p class="mb-0">Registered</p>
+                                    <h6 class="text-uppercase mb-0">Clients</h6>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="d-flex align-items-center border-start border-5 border-primary px-3">
-                                <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">50</h1>
+                                <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">{{totalCooks ? totalCooks : defaultNum}} </h1>
                                 <div class="ps-4">
-                                    <p class="mb-0">Popular</p>
-                                    <h6 class="text-uppercase mb-0">Master Chefs</h6>
+                                    <p class="mb-0">Total</p>
+                                    <h6 class="text-uppercase mb-0">Skilled Cooks</h6>
                                 </div>
                             </div>
                         </div>
