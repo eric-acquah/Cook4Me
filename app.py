@@ -12,7 +12,9 @@ from models.clients import ClientModel
 from models.posts import PostModel
 from api.v1.app import app
 from models.storage_engine.db_storage import StorageDb
+from flask_cors import CORS
 
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
 if __name__ == '__main__':
