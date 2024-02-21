@@ -70,7 +70,7 @@ def createReview():
     stats = review.save(True)
 
     if stats:
-        return make_response(jsonify(review.dictify()))
+        return make_response(jsonify(review.dictify()), 201)
     
 
 # Update a review
@@ -91,5 +91,5 @@ def deleteReview(review_id):
     stats = review.destroy()
 
     if stats:
-        return make_response(jsonify({'status': 'DELETED'}))
+        return make_response(jsonify({'status': 'DELETED'}), 200)
  
