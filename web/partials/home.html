@@ -151,13 +151,13 @@
                 <div class="col-lg-6">
                     <div class="row g-3">
                         <div class="col-6 text-start">
-                            <img alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" src="assets/img/about-1.jpg">
+                            <img alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" src="assets/img/fufu.jpg">
                         </div>
                         <div class="col-6 text-start">
-                            <img alt="" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s" src="assets/img/about-2.jpg" style="margin-top: 25%;">
+                            <img alt="" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s" src="assets/img/about-3.jpg" style="margin-top: 25%;">
                         </div>
                         <div class="col-6 text-end">
-                            <img alt="" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s" src="assets/img/about-3.jpg">
+                            <img alt="" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s" src="assets/img/jollof.jpg">
                         </div>
                         <div class="col-6 text-end">
                             <img alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s" src="assets/img/about-4.jpg">
@@ -196,7 +196,7 @@
     </div>
     <!-- About End -->
 
-    <!-- Reservation Start -->
+    <!-- Feedback Start -->
     <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
         <div class="row g-0">
             <div class="col-md-6">
@@ -206,48 +206,32 @@
                     </button>
                 </div>
             </div>
-            <div class="col-md-6 bg-dark d-flex align-items-center">
+            <div class="col-md-6 bg-dark d-flex align-items-center" ng-controller="feedbackCtrl">
                 <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
-                    <h5 class="section-title ff-secondary text-start text-primary fw-normal">Reservation</h5>
-                    <h1 class="text-white mb-4">Book A Table Online</h1>
-                    <form>
+                    <h5 class="section-title ff-secondary text-start text-primary fw-normal">Feedback</h5>
+                    <h1 class="text-white mb-4">We'd love your feedback!</h1>
+                    <form ng-submit="submitFeedback()">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                    <input type="text" class="form-control" id="name" ng-model="UserFeedback.name" placeholder="Your Name">
                                     <label for="name">Your Name</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                    <input type="email" class="form-control" id="email" ng-model="UserFeedback.email" placeholder="Your Email">
                                     <label for="email">Your Email</label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-floating date" id="date3" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" id="datetime" placeholder="Date & Time" data-target="#date3" data-toggle="datetimepicker" />
-                                    <label for="datetime">Date & Time</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <select class="form-select" id="select1">
-                                      <option value="1">People 1</option>
-                                      <option value="2">People 2</option>
-                                      <option value="3">People 3</option>
-                                    </select>
-                                    <label for="select1">No Of People</label>
-                                  </div>
-                            </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Special Request" id="message" style="height: 100px"></textarea>
-                                    <label for="message">Special Request</label>
+                                    <textarea class="form-control" placeholder="Special Request" ng-model="UserFeedback.input" id="message" style="height: 100px"></textarea>
+                                    <label for="message">Your Thoughts...</label>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
+                                <button class="btn btn-primary w-100 py-3" type="submit">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -273,7 +257,7 @@
             </div>
         </div>
     </div>
-    <!-- Reservation Start -->
+    <!-- Feedback Start -->
 
 
     <!-- Testimonial Start -->
@@ -283,7 +267,7 @@
                 <h5 class="section-title ff-secondary text-center text-primary fw-normal">Testimonial</h5>
                 <h1 class="mb-5">Our Clients Say!!!</h1>
             </div>
-            <div class="owl-carousel testimonial-carousel">
+            <div class="owl-carousel testimonial-carousel overflow-auto" style="max-height: 550px;">
                 <div class="testimonial-item bg-transparent border rounded p-4">
                     <i class="la la-quote-left la-2x text-primary mb-3"></i>
                     <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
@@ -325,6 +309,17 @@
                         <div class="ps-3">
                             <h5 class="mb-1">Client Name</h5>
                             <small>Profession</small>
+                        </div>
+                    </div>
+                </div>
+                <div ng-repeat="review in allReviews" class="testimonial-item bg-transparent border rounded p-4">
+                    <i class="la la-quote-left la-2x text-primary mb-3"></i>
+                    <p>{{review.input ? review.input : inputPlaceholder}}</p>
+                    <div class="d-flex align-items-center">
+                        <img alt="" class="img-fluid flex-shrink-0 rounded-circle" src="assets/img/user-icon.png" style="width: 50px; height: 50px;">
+                        <div class="ps-3">
+                            <h5 class="mb-1">{{review.name ? review.name : namePlaceholder}}</h5>
+                            <small>{{review.email ? review.email : emailPlaceholder}}</small>
                         </div>
                     </div>
                 </div>

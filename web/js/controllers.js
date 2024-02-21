@@ -1,5 +1,5 @@
 angular.module('liveApp.controllers', []).
-  controller('HomePageController', function($scope, FlaskApiService) {
+  controller('HomePageController', function($scope, FlaskApiService, ReviewsAccess) {
     $scope.appName = 'Cook4Me';
     $scope.nameFilter = null;
     $scope.driversList = [];
@@ -7,6 +7,10 @@ angular.module('liveApp.controllers', []).
     $scope.blankName = "Cook Name";
     $scope.totalClients = 20;
     $scope.defaultNum = 50;
+    $scope.inputPlaceholder = "I really love this app!";
+    $scope.namePlaceholder = "Client Name";
+    $scope.emailPlaceholder = "Email";
+
     let cooks_endpoint = "cooks";
 
     FlaskApiService.getData(cooks_endpoint).then(function(response){
@@ -37,16 +41,29 @@ angular.module('liveApp.controllers', []).
         $scope.cook.push(keep)          
     }
 
-    //If cooks objects are not loaded from database set default totalCooks value to 50
-    if (!$scope.cook.length){
-        $scope.totalCooks = 50;
+    //Sets the totalCooks value to be displayed in the view
+    $scope.totalCooks = $scope.cook.length;    
+    }
+
+    );
+
+    // Display reviews
+    ReviewsAccess.getReview().then(function(reviewStore){
+        $scope.allReviews = reviewStore;
+        console.log($scope.allReviews);
+    });
+    
+  }).
+  controller('feedbackCtrl', function($scope, ReviewsAccess){
+
+    $scope.UserFeedback = {};
+
+    function submitFeedback(){
+        ReviewsAccess.addReview($scope.UserFeedback); // saves review
     };
 
-    $scope.totalCooks = $scope.cook.length;
-        
-    }
-    );
-    
+    submitFeedback();
+
   }).
   /* Service Controller */
   controller('ServicesPageController', function($scope, restAPIservice) {

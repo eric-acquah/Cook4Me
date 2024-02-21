@@ -45,6 +45,24 @@ angular.module('liveApp.services', [])
 
         return flaskApi
   }
+  ).factory('ReviewsAccess', function(){
+        let store = [];
+        let feedbackStore = {};
+
+        feedbackStore.addReview = function(review){
+            store.push(review); // Adds new reviews
+        }
+
+        feedbackStore.getReview = function(review){
+            return new Promise(function(resolve, reject){
+                resolve(store) // Retrives all reviews
+            });
+        };  
+        
+        return feedbackStore;
+
+  }
+
   );
 
 
