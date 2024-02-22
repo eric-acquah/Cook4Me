@@ -24,7 +24,7 @@ angular.module('liveApp.services', [])
         }
 
         /*For updating data*/
-        flaskApi.updatedata = function(endpoint, data){
+        flaskApi.updateData = function(endpoint, data){
             return new Promise(function(resolve, reject){
                 $http.put(url + endpoint, data).then(function(response){
                     resolve(response.data)
@@ -34,7 +34,7 @@ angular.module('liveApp.services', [])
         }
 
         /*For deleting data*/
-        flaskApi.deletedata = function(endpoint, id){
+        flaskApi.deleteData = function(endpoint, id){
             return new Promise(function(resolve, reject){
                 $http.delete(url + endpoint + "/" + id).then(function(response){
                         resolve(response.data)
@@ -45,17 +45,27 @@ angular.module('liveApp.services', [])
 
         return flaskApi
   }
-  ).factory('ReviewsAccess', function(){
+  ).factory('ReviewsAccess', function(FlaskApiService){
         let store = [];
         let feedbackStore = {};
+        let endpoint = "reviews";
 
         feedbackStore.addReview = function(review){
-            store.push(review); // Adds new reviews
+
+            return new Promise(function(resolve, reject){
+                FlaskApiService.postData(endpoint, angular.toJson(review)).then(function(response){
+                    resolve(response)
+            });
+            });
+
         }
 
-        feedbackStore.getReview = function(review){
+        feedbackStore.getReview = function(){
             return new Promise(function(resolve, reject){
-                resolve(store) // Retrives all reviews
+                // Retrives all reviews
+                FlaskApiService.getData(endpoint).then(function(response){
+                    resolve(response)
+            });
             });
         };  
         

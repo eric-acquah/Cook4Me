@@ -63,8 +63,8 @@ def createReview():
 
     review = ReviewModel()
 
-    review.revierName = data['name']
-    review.revierEmail = data['email']
+    review.name = data['name']
+    review.email = data['email']
     review.review = data['review']
 
     stats = review.save(True)

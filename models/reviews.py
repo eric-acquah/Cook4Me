@@ -20,6 +20,6 @@ class ReviewModel(BaseModel):
         super().__init__(*args, **kwargs)
 
         if not kwargs:
-            self.revierName = ""
-            self.revierEmail = ""
+            self.name = ""
+            self.email = ""
             self.review = ""

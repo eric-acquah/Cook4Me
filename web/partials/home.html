@@ -6,7 +6,7 @@
                     <h1 class="display-3 text-white animated slideInLeft">Find your<br>favorite cook</h1>
                     <p class="text-white animated slideInLeft mb-4 pb-2">
                         Want to book a cook for a personalized cuisine?
-                        Look no futher, you are at the right place at the right time. 
+                        Look no further, you are at the right place at the right time. 
                         On Cook4Me, you will discover top-notch and experienced cooks who offer five-star services at a reasonable
                         price according to your preferences.
                     </p>
@@ -210,7 +210,7 @@
                 <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
                     <h5 class="section-title ff-secondary text-start text-primary fw-normal">Feedback</h5>
                     <h1 class="text-white mb-4">We'd love your feedback!</h1>
-                    <form ng-submit="submitFeedback()">
+                    <form name="feedbackForm" ng-submit="submitFeedback()">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
@@ -226,12 +226,15 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Special Request" ng-model="UserFeedback.input" id="message" style="height: 100px"></textarea>
+                                    <textarea class="form-control" placeholder="Special Request" ng-model="UserFeedback.review" id="message" style="height: 100px"></textarea>
                                     <label for="message">Your Thoughts...</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <button class="btn btn-primary w-100 py-3" type="submit">Submit</button>
+                            </div>
+                            <div class="col-12 text-center">
+                                <small ng-scroll="clearReact()" class="fst-italic fw-bolder">{{feedbackReact}}</small>
                             </div>
                         </div>
                     </form>
@@ -314,7 +317,7 @@
                 </div>
                 <div ng-repeat="review in allReviews" class="testimonial-item bg-transparent border rounded p-4">
                     <i class="la la-quote-left la-2x text-primary mb-3"></i>
-                    <p>{{review.input ? review.input : inputPlaceholder}}</p>
+                    <p>{{review.review ? review.review : inputPlaceholder}}</p>
                     <div class="d-flex align-items-center">
                         <img alt="" class="img-fluid flex-shrink-0 rounded-circle" src="assets/img/user-icon.png" style="width: 50px; height: 50px;">
                         <div class="ps-3">

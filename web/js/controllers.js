@@ -1,5 +1,5 @@
 angular.module('liveApp.controllers', []).
-  controller('HomePageController', function($scope, FlaskApiService, ReviewsAccess) {
+  controller('HomePageController', function($scope, FlaskApiService, ReviewsAccess, $rootScope) {
     $scope.appName = 'Cook4Me';
     $scope.nameFilter = null;
     $scope.driversList = [];
@@ -50,19 +50,39 @@ angular.module('liveApp.controllers', []).
     // Display reviews
     ReviewsAccess.getReview().then(function(reviewStore){
         $scope.allReviews = reviewStore;
-        console.log($scope.allReviews);
     });
+
+    // listen and Hot-reaload after each form submission
+    $scope.$on('reviewAdded', function(event, newReview){
+ 
+        $scope.allReviews.push(newReview);
+        $scope.$apply($scope.allReviews) // Force re-rendering of objects. #!Not the best approach tho#!
+        $scope.feedbackReact = "Thanks for your feedback";
+
+    // clear the feedbackReact upon a scroll
+    $scope.clearReact = function(){
+        $scope.$apply($scope.feedbackReact = "");
+     }
+
+    });
+
     
   }).
-  controller('feedbackCtrl', function($scope, ReviewsAccess){
+  controller('feedbackCtrl', function($scope, ReviewsAccess, $rootScope){
 
     $scope.UserFeedback = {};
 
-    function submitFeedback(){
-        ReviewsAccess.addReview($scope.UserFeedback); // saves review
-    };
+    $scope.submitFeedback = function () {
+        ReviewsAccess.addReview($scope.UserFeedback).then(function(createdReview){
+            // Broadcast each new submission for view controller to reload
+            $scope.newReview = createdReview;
+            $rootScope.$broadcast('reviewAdded', $scope.newReview);
+            $scope.$apply($scope.UserFeedback = {}) // Reset the model to clear form field
 
-    submitFeedback();
+            $scope.feedbackForm.$setPristine();
+            $scope.feedbackForm.$setUntouched();
+        });
+    };
 
   }).
   /* Service Controller */
