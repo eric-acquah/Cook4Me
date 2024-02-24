@@ -94,8 +94,60 @@ angular.module('liveApp.controllers', []).
    
   }).
   /* Register Controller */
-  controller('RegisterPageController', function($scope, restAPIservice) {
-   
+  controller('RegisterPageController', function($scope, FlaskApiService) {
+
+    // $scope.registerAsOptions = 'client'
+
+    $scope.optionTrigger = function(){
+        if ($scope.registerAsOptions === 'cook'){
+            $scope.registerAsCook = true;
+        } else {
+            $scope.registerAsCook = false;
+            $scope.reopenRegisterAs = false;
+        }
+    }
+
+    $scope.closeField = function(){
+        $scope.registerAsCook = false;
+        $scope.reopenRegisterAs = true; // Toggle to reopen registerAsCook
+    }
+
+    $scope.ReopenRegisterAs = function(){
+        $scope.registerAsCook = true;
+        $scope.reopenRegisterAs = false; // disappears after reopening registerAsCook
+    }
+
+    // Speciality object 
+    $scope.domain = {
+        'cuisine': ["global", "regional", "dietary"],
+        'dish': ["appetizers_and_snacks", "main_courses", "sides_and_soups", "desserts", "baking"],
+        'cooking_style': ["classic", "modern", "healthy", "street_food"]
+      };
+
+    // Let the Bio field show by default
+    $scope.toggle = "Next";
+    $scope.label = "Bio"
+    $scope.toBio = true;
+
+    // Toggles between the Bio field and the Speciality field
+    $scope.switcField = function (){
+
+        if ($scope.toggle !== "Previous"){
+            // Toggle to speciality field
+            $scope.label = "Speciality"
+            $scope.toBio = false;
+            $scope.toDomain = true;
+
+            $scope.toggle = "Previous"; // Changes the button text to "Previous"
+        } else {
+            // Toggle to Bio field
+            $scope.label = "Bio";
+            $scope.toDomain = false;
+            $scope.toBio = true;
+
+            $scope.toggle = "Next"; // Changes the button text to "Next"
+        };
+    }
   }).
   /* About Controller */
   controller('AboutPageController', function($scope, restAPIservice) {

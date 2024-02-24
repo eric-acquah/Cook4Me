@@ -1,7 +1,8 @@
 angular.module('liveApp', [
     'liveApp.services',
     'liveApp.controllers',
-    'ngRoute'
+    'ngRoute',
+    'ngAnimate',
 ]).
 config(['$routeProvider', function($routeProvider) {
 $routeProvider.
@@ -13,4 +14,6 @@ $routeProvider.
     when("/feed", {templateUrl: "partials/feed.html", controller: "FeedPageController"}).
     when("/contact", {templateUrl: "partials/contact.html", controller: "ContactPageController"}).
     otherwise({redirectTo: '/home'});
-}]);
+}]).config(function($animateProvider) {
+    $animateProvider.classNameFilter(/ng-hide|ng-show/);
+});

@@ -602,3 +602,34 @@ body{
 .cardcontainer:hover > .content{
     height: 15rem;
 }
+
+/* Register styles */
+
+.register-as {
+    max-height: 430px;
+    opacity: 1;
+    transition: max-height 0.6s ease-in-out, opacity 0.5s ease-in;
+}
+
+.register-as.ng-hide {
+    opacity: 0;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.6s ease-in-out, opacity 0.5s ease-in;
+}
+
+.bio-section.ng-hide, .domain-section.ng-hide {
+    opacity: 0;
+    overflow: hidden;
+    transition: left 0.4s ease-in-out, opacity 0.4s ease-in;
+}
+
+.bio-section.expanded, .domain-section.expanded {
+    opacity: 1;
+    /* transition: opacity 0.2s ease-out; */
+}
+
+/* close-btn */
+.close-btn{
+    float: right !important
+}
