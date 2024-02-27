@@ -22,7 +22,8 @@
                             <label for="" class="form-label">Register As</label>
                             <select ng-model="registerAsOptions" ng-change="optionTrigger()" title="registerAs" 
                             class="form-select form-select-lg" name="registerAs" id="registerAs"
-                            ng-class="{'is-invalid': registerForm.registerAs.$invalid && registerForm.registerAs.$touched}" required>
+                            ng-class="{'is-invalid': registerForm.registerAs.$invalid && registerForm.registerAs.$touched, 
+                            'is-valid': registerForm.registerAs.$valid && registerForm.registerAs.$touched}" required>
                                 <option selected disabled>Select option</option>
                                 <option value="cook">Cook</option>
                                 <option value="client">Client</option>
@@ -36,8 +37,10 @@
                         <div class="mb-3">
                             <label for="fullName" class="form-label">Full Name</label>
                             <input title="fullName" type="text" class="form-control" name="fullName" id="fullName" aria-describedby="helpId" 
-                            ng-class="{'is-invalid': registerForm.fullName.$invalid && registerForm.fullName.$touched}" ng-model="submitRegister.name" required>
-                             <div class="invalid-feedback" ng-show="registerForm.fullName.$invalid && registerForm.fullName.$submitted">
+                            ng-class="{'is-invalid': registerForm.fullName.$invalid && registerForm.fullName.$touched, 
+                            'is-valid': registerForm.fullName.$valid && registerForm.fullName.$touched}" 
+                            ng-model="submitRegister.name" required>
+                             <div class="invalid-feedback">
                                 Please enter your full name
                              </div>
                         </div>
@@ -46,7 +49,8 @@
                         <div class="mb-3">
                             <label for="" class="form-label">Biological Gender</label>
                             <select title="gender" class="form-select " name="gender" id="gender" 
-                            ng-class="{'is-invalid': registerForm.gender.$invalid && registerForm.gender.$touched}" ng-model="submitRegister.gender" required>
+                            ng-class="{'is-invalid': registerForm.gender.$invalid && registerForm.gender.$touched,
+                            'is-valid': registerForm.gender.$valid && registerForm.gender.$touched}" ng-model="submitRegister.gender" required>
                                 <option selected disabled>Select gender</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
@@ -60,7 +64,8 @@
                         <div class="mb-3">
                             <label for="dob" class="form-label">Date of Birth</label>
                             <input title="dob" type="date" class="form-control" name="dob" id="dob" aria-describedby="helpId" 
-                            ng-class="{'is-invalid': registerForm.dob.$invalid && registerForm.dob.$touched}" ng-model="submitRegister.birthDate" required>
+                            ng-class="{'is-invalid': registerForm.dob.$invalid && registerForm.dob.$touched, 
+                            'is-valid': registerForm.dob.$valid && registerForm.dob.$touched}" ng-model="submitRegister.birthDate" required>
                             <div class="invalid-feedback">
                                 Please enter your date of birth
                             </div>
@@ -70,7 +75,8 @@
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input title="email" type="email" class="form-control" name="email" id="email" aria-describedby="helpId" 
-                            ng-class="{'is-invalid': registerForm.email.$invalid && registerForm.email.$touched}" ng-model="submitRegister.email" required>
+                            ng-class="{'is-invalid': registerForm.email.$invalid && registerForm.email.$touched,
+                            'is-valid': registerForm.email.$valid && registerForm.email.$touched}" ng-model="submitRegister.email" required>
                             <div class="invalid-feedback">
                                 Enter a valid email
                             </div>
@@ -80,7 +86,8 @@
                         <div class="mb-3">
                             <label for="address" class="form-label">Address</label>
                             <input title="address" type="text" class="form-control" name="address" id="address" aria-describedby="helpId" 
-                            ng-class="{'is-invalid': registerForm.address.$invalid && registerForm.address.$touched}" ng-model="submitRegister.address" required>
+                            ng-class="{'is-invalid': registerForm.address.$invalid && registerForm.address.$touched,
+                            'is-valid': registerForm.address.$valid && registerForm.address.$touched}" ng-model="submitRegister.address" required>
                             <div class="invalid-feedback">
                                 Please enter your address
                             </div>
@@ -90,7 +97,8 @@
                         <div class="mb-3">
                             <label for="phoneNumber" class="form-label">Phone Number</label>
                             <input title="phoneNumber" type="text" class="form-control" name="phoneNumber" id="phoneNumber" aria-describedby="helpId" 
-                            ng-class="{'is-invalid': registerForm.phoneNumber.$invalid && registerForm.phoneNumber.$touched}" ng-model="submitRegister.phone" required>
+                            ng-class="{'is-invalid': registerForm.phoneNumber.$invalid && registerForm.phoneNumber.$touched,
+                            'is-valid': registerForm.phoneNumber.$valid && registerForm.phoneNumber.$touched}" ng-model="submitRegister.phone" required>
                             <div class="invalid-feedback">
                                 Please provide a valid phone number
                             </div>

@@ -154,6 +154,9 @@ angular.module('liveApp.controllers', []).
     $scope.submitRegister = {};
     $scope.speciality = {};
 
+
+    /*###### HELPER FUNCTIONS START #######*/
+
     // Initializes speciality with the appropriate fields 
     function setSpeciality(){
         Object.keys($scope.domain).forEach(category => {
@@ -189,18 +192,28 @@ angular.module('liveApp.controllers', []).
         return password;
     }
 
+    function noValidation(){
+        angular.element(document.querySelectorAll('.form-control, .form-select')).each(function(){
+            const input = angular.element(this);
+            if (input.hasClass('ng-invalid')){
+                input.removeClass('is-invalid')
+            } else {
+                input.removeClass('is-invalid');
+            };
+        });
+    }
+
+
     function dataSanitationFactory(){
-        if ($scope.registerForm.$invalid){
+        if ($scope.registerForm.$invalid && $scope.registerForm.$submitted){
 
-            const invalidFormCtrl = angular.element(document.querySelectorAll('.form-control:invalid'));
-            const invalidFormSelect = angular.element(document.querySelectorAll('.form-select:invalid'));
-
-            invalidFormSelect.each(function(){
-                angular.element(this).addClass('is-invalid')
-            });
-
-            invalidFormCtrl.each(function(){
-                angular.element(this).addClass('is-invalid')
+            const FormCtrl = angular.element(document.querySelectorAll('.form-control, .form-select')).each(function(){
+                const input = angular.element(this);
+                if (input.hasClass('ng-invalid')){
+                    input.addClass('is-invalid');
+                } else {
+                    input.removeClass('is-invalid');
+                };
             });
 
                 // sanitize cook's speciality data
@@ -211,30 +224,26 @@ angular.module('liveApp.controllers', []).
 
                 if (!list.length){
                     $scope.isNotCheck = true;
-                    setSpeciality();
+                    // setSpeciality();
                     break;
-                } else {
-                    $scope.isNotCheck = false;
-                    $scope.speciality[key] = list;
-                };
+                }
             };
 
-            return null;
         }
-
+        
         // sanitize cook's speciality data
         for (let key in $scope.speciality){
             list = [];
-    
+
             list = Object.keys($scope.speciality[key]);
 
             if (!list.length){
                 $scope.isNotCheck = true;
-                setSpeciality();
+                // setSpeciality();
                 break;
             } else {
-                $scope.isNotCheck = false;
-                $scope.speciality[key] = list;
+            $scope.isNotCheck = false;
+            $scope.speciality[key] = list;
             };
         };
 
@@ -253,6 +262,9 @@ angular.module('liveApp.controllers', []).
         $scope.submitRegister.password = setDefaultPasswd();
     }
 
+    /*###### HELPER FUNCTIONS START ######*/
+
+
     setSpeciality(); // Initializes speciality object with the right fields. eg 'cuisine': [], 'dish': []
 
 
@@ -265,22 +277,29 @@ angular.module('liveApp.controllers', []).
             
             const endpoint = "cooks";
 
+            console.log($scope.submitRegister)
+
             RegisterService.registerCook(endpoint, $scope.submitRegister).then(function(response){
                 console.log(response);
+                $scope.$apply($scope.submitRegister = {}); // Clears form field after submission
+
+                noValidation(); // Prevents validation after clearing form field
             });
             
         } else {
             const endpoint = "clients";
 
+            console.log($scope.submitRegister)
+
             RegisterService.registerCook(endpoint, $scope.submitRegister).then(function(response){
                 console.log(response);
+
+                $scope.$apply($scope.submitRegister = {}); // Clears form field after submission
+
+                noValidation(); // Prevents validation after clearing form field
             });
         }
-
-    //    $scope.$apply($scope.submitRegister = {});
     }
-
-    // console.log($scope.speciality);
 
   }).
   /* About Controller */
