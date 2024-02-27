@@ -13,3 +13,4 @@ from api.v1.resources.cooks import *
 from api.v1.resources.posts import *
 from api.v1.resources.orders import *
 from api.v1.resources.reviews import *
+from api.v1.resources.logins import *
