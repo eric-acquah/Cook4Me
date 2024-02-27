@@ -94,16 +94,18 @@ angular.module('liveApp.controllers', []).
    
   }).
   /* Register Controller */
-  controller('RegisterPageController', function($scope, FlaskApiService) {
+  controller('RegisterPageController', function($scope, RegisterService) {
 
     // $scope.registerAsOptions = 'client'
 
     $scope.optionTrigger = function(){
         if ($scope.registerAsOptions === 'cook'){
             $scope.registerAsCook = true;
+            $scope.submitRegister.registeredAs = 'cook';
         } else {
             $scope.registerAsCook = false;
             $scope.reopenRegisterAs = false;
+            $scope.submitRegister.registeredAs = 'client';
         }
     }
 
@@ -148,6 +150,138 @@ angular.module('liveApp.controllers', []).
             $scope.toggle = "Next"; // Changes the button text to "Next"
         };
     }
+
+    $scope.submitRegister = {};
+    $scope.speciality = {};
+
+    // Initializes speciality with the appropriate fields 
+    function setSpeciality(){
+        Object.keys($scope.domain).forEach(category => {
+            $scope.speciality[category] = [];
+        });
+    }
+
+    function calculateAge(birthDate){
+        const today = new Date();
+        const fullBirthDate = new Date(birthDate);
+
+        // calculate the age
+        let age = today.getFullYear() - fullBirthDate.getFullYear()
+
+        // adjust age if the birtday hasn't happened yet
+        let monthDiff = today.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0  || (monthDiff === 0 && today.getDate() < birthDate.getDate())){
+            age--; 
+        };
+
+        return age;
+    }
+
+    function setDefaultPasswd(length = 8){
+        const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        let password = "";
+
+        for (let i = 0; i < length; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        return password;
+    }
+
+    function dataSanitationFactory(){
+        if ($scope.registerForm.$invalid){
+
+            const invalidFormCtrl = angular.element(document.querySelectorAll('.form-control:invalid'));
+            const invalidFormSelect = angular.element(document.querySelectorAll('.form-select:invalid'));
+
+            invalidFormSelect.each(function(){
+                angular.element(this).addClass('is-invalid')
+            });
+
+            invalidFormCtrl.each(function(){
+                angular.element(this).addClass('is-invalid')
+            });
+
+                // sanitize cook's speciality data
+            for (let key in $scope.speciality){
+                list = [];
+        
+                list = Object.keys($scope.speciality[key]);
+
+                if (!list.length){
+                    $scope.isNotCheck = true;
+                    setSpeciality();
+                    break;
+                } else {
+                    $scope.isNotCheck = false;
+                    $scope.speciality[key] = list;
+                };
+            };
+
+            return null;
+        }
+
+        // sanitize cook's speciality data
+        for (let key in $scope.speciality){
+            list = [];
+    
+            list = Object.keys($scope.speciality[key]);
+
+            if (!list.length){
+                $scope.isNotCheck = true;
+                setSpeciality();
+                break;
+            } else {
+                $scope.isNotCheck = false;
+                $scope.speciality[key] = list;
+            };
+        };
+
+        console.log($scope.speciality);
+
+        // Include the sanitized cook speciality object
+        $scope.submitRegister.domain = {...$scope.speciality};
+
+        // Set the address to location to match with API requirement
+        $scope.submitRegister.location =  $scope.submitRegister.address
+
+        // Get correct user age
+        $scope.submitRegister.age = calculateAge($scope.submitRegister.birthDate);
+
+        // Set default password for user
+        $scope.submitRegister.password = setDefaultPasswd();
+    }
+
+    setSpeciality(); // Initializes speciality object with the right fields. eg 'cuisine': [], 'dish': []
+
+
+    // Submit form for creating new object via the API
+    $scope.submitRegisterForm = function() {
+        
+        dataSanitationFactory(); // Sanitize data
+
+        if ($scope.submitRegister.registeredAs === "cook"){
+            
+            const endpoint = "cooks";
+
+            RegisterService.registerCook(endpoint, $scope.submitRegister).then(function(response){
+                console.log(response);
+            });
+            
+        } else {
+            const endpoint = "clients";
+
+            RegisterService.registerCook(endpoint, $scope.submitRegister).then(function(response){
+                console.log(response);
+            });
+        }
+
+    //    $scope.$apply($scope.submitRegister = {});
+    }
+
+    // console.log($scope.speciality);
+
   }).
   /* About Controller */
   controller('AboutPageController', function($scope, restAPIservice) {

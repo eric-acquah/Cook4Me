@@ -73,7 +73,29 @@ angular.module('liveApp.services', [])
 
   }
 
-  );
+  ).factory('RegisterService', function(FlaskApiService){
+
+    let registration = {};
+
+    registration.registerCook = function(endpoint, data){
+        return new Promise(function(resolve, reject){
+            FlaskApiService.postData(endpoint, angular.toJson(data)).then(function(response){
+                resolve(response);
+            });
+        });
+    };
+
+    registration.registerClient = function(endpoint, data){
+        return new Promise(function(resolve, reject){
+            FlaskApiService.postData(endpoint, angular.toJson(data)).then(function(response){
+                resolve(response);
+            });
+        });
+    };
+
+    return registration;
+
+  });
 
 
 
