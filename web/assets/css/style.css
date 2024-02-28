@@ -633,3 +633,19 @@ body{
 .close-btn{
     float: right !important
 }
+
+/* Modal-btn */
+.btn.btn-modal{
+    color: rgb(15, 23, 43);
+    background-color: white;
+    border: 3px solid rgb(25, 135, 84);
+    font-weight: 700;
+}
+
+.btn.btn-modal.ng-hide{
+    transition: none;
+}
+
+.btn-submit.ng-hide{
+    transition: none;
+}

@@ -151,6 +151,10 @@ angular.module('liveApp.controllers', []).
         };
     }
 
+    // Toggles the submit and modal button
+    $scope.notSubmitted = true;
+    $scope.submitted = false;
+
     $scope.submitRegister = {};
     $scope.speciality = {};
 
@@ -281,9 +285,15 @@ angular.module('liveApp.controllers', []).
 
             RegisterService.registerCook(endpoint, $scope.submitRegister).then(function(response){
                 console.log(response);
+
+                // Toggles the submit and modal button
+                $scope.notSubmitted = false;
+                $scope.submitted = true;
+
                 $scope.$apply($scope.submitRegister = {}); // Clears form field after submission
 
                 noValidation(); // Prevents validation after clearing form field
+
             });
             
         } else {
@@ -294,11 +304,21 @@ angular.module('liveApp.controllers', []).
             RegisterService.registerCook(endpoint, $scope.submitRegister).then(function(response){
                 console.log(response);
 
+                 // Toggles the submit and modal button
+                $scope.notSubmitted = false;
+                $scope.submitted = true;
+
                 $scope.$apply($scope.submitRegister = {}); // Clears form field after submission
 
                 noValidation(); // Prevents validation after clearing form field
+                
             });
+
         }
+    }
+
+    $scope.openModal = function (){
+        $scope.loginModal = true;
     }
 
   }).
