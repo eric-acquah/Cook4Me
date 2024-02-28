@@ -20,10 +20,10 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-              <form name="loginDetails" ng-submit="usrLoginDetails()" novalidate>
+              <form name="loginDetails" ng-submit="usrAuthDetails()" novalidate>
                 <div class="mb-3">
                   <label for="username" class="form-label">Username</label>
-                  <input type="text" class="form-control" name="username" id="username" ng-model="usrName" 
+                  <input type="text" class="form-control" name="username" id="username" ng-model="AuthDetails.usrName" 
                   ng-class="{'is-invalid': loginDetails.username.$invalid && loginDetails.username.$touched}" required>
                   <div class="invalid-feedback">
                     Please enter a unique username
@@ -31,14 +31,14 @@
                 </div>
                 <div class="mb-3">
                   <label for="password" class="form-label">Password</label>
-                  <input type="password" class="form-control" name="password" id="password" ng-model="usrPasswd" 
+                  <input type="password" class="form-control" name="password" id="password" ng-model="AuthDetails.usrPasswd" 
                   ng-class="{'is-invalid': loginDetails.password.$invalid && loginDetails.password.$touched}" required>
                   <div class="invalid-feedback">
                     Please enter your password
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Register</button>
-                <button type="button" class="btn btn-secondary">Discard</button>
+                <button type="submit" class="btn btn-primary me-2">Register</button>
+                <button type="button" ng-click="discardModal()" class="btn btn-secondary">Discard</button>
               </form>
             </div>
           </div>

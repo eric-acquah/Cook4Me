@@ -77,6 +77,15 @@ angular.module('liveApp.services', [])
 
     let registration = {};
 
+    // Retrieve all AuthDetails from database
+    registration.allAuth = function(endpoint){
+        return new Promise(function(resolve, reject){
+            FlaskApiService.getData(endpoint).then(function(response){
+                resolve(response);
+            });
+        });
+    }
+
     registration.registerCook = function(endpoint, data){
         return new Promise(function(resolve, reject){
             FlaskApiService.postData(endpoint, angular.toJson(data)).then(function(response){
@@ -92,6 +101,14 @@ angular.module('liveApp.services', [])
             });
         });
     };
+
+    registration.Auth = function(endpoint, data){
+        return new Promise(function(resolve, reject){
+            FlaskApiService.postData(endpoint, angular.toJson(data)).then(function(response){
+                resolve(response);
+            });
+        });
+    }
 
     return registration;
 

@@ -157,14 +157,63 @@ angular.module('liveApp.controllers', []).
 
     $scope.submitRegister = {};
     $scope.speciality = {};
+    $scope.AuthDetails = {};
 
+    collectAuth();
 
     /*###### HELPER FUNCTIONS START #######*/
+
+    // Retrieve all auth data into sessionStorage
+    function collectAuth(){
+
+        let authDetails = [];
+
+        if (sessionStorage.getItem('authDetails') == null){
+
+            RegisterService.allAuth('logins').then(function(response){
+                for (let obj in response){
+                    authDetails.push(response[obj]);
+                }
+    
+                sessionStorage.setItem('authDetails', angular.toJson(authDetails));
+    
+                console.log(sessionStorage.getItem('authDetails'));
+            });
+        }
+    };
+ 
+    // Check uniqueness of username
+    function UsrNameIsUnique(usrname){
+        let authStore = sessionStorage.getItem('authDetails');
+
+        authStore = angular.fromJson(authStore); // convert back into array object
+
+        for (let obj in authStore){
+            if (authStore[obj].usrIdentity.usrName == usrname){
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     // Initializes speciality with the appropriate fields 
     function setSpeciality(){
         Object.keys($scope.domain).forEach(category => {
             $scope.speciality[category] = [];
+        });
+    }
+
+    // Triggers 'is-invalid' classes
+    function notValid(cls){
+
+        angular.element(document.querySelectorAll(cls)).each(function(){
+            const input = angular.element(this);
+            if (input.hasClass('ng-invalid')){
+                input.addClass('is-invalid');
+            } else {
+                input.removeClass('is-invalid');
+            };
         });
     }
 
@@ -211,16 +260,9 @@ angular.module('liveApp.controllers', []).
     function dataSanitationFactory(){
         if ($scope.registerForm.$invalid && $scope.registerForm.$submitted){
 
-            const FormCtrl = angular.element(document.querySelectorAll('.form-control, .form-select')).each(function(){
-                const input = angular.element(this);
-                if (input.hasClass('ng-invalid')){
-                    input.addClass('is-invalid');
-                } else {
-                    input.removeClass('is-invalid');
-                };
-            });
+            notValid('.form-control, .form-select');
 
-                // sanitize cook's speciality data
+            // sanitize cook's speciality data
             for (let key in $scope.speciality){
                 list = [];
         
@@ -286,6 +328,9 @@ angular.module('liveApp.controllers', []).
             RegisterService.registerCook(endpoint, $scope.submitRegister).then(function(response){
                 console.log(response);
 
+                $scope.AuthDetails.id = response.id
+                $scope.AuthDetails.class = "cook";
+
                 // Toggles the submit and modal button
                 $scope.notSubmitted = false;
                 $scope.submitted = true;
@@ -304,6 +349,9 @@ angular.module('liveApp.controllers', []).
             RegisterService.registerCook(endpoint, $scope.submitRegister).then(function(response){
                 console.log(response);
 
+                $scope.AuthDetails.id = response.id;
+                $scope.AuthDetails.class = "client";
+
                  // Toggles the submit and modal button
                 $scope.notSubmitted = false;
                 $scope.submitted = true;
@@ -317,8 +365,41 @@ angular.module('liveApp.controllers', []).
         }
     }
 
-    $scope.openModal = function (){
-        $scope.loginModal = true;
+    $scope.usrAuthDetails = function (){
+        const endpoint = "logins"
+        console.log($scope.AuthDetails);
+
+        // Validate input before submission
+        if ($scope.loginDetails.$invalid && $scope.loginDetails.$submitted){
+            
+            notValid('.form-control');
+        }
+
+        // check uniqueness of the username entered
+        const isUnique = UsrNameIsUnique($scope.AuthDetails.usrName);
+
+        if (isUnique == false){
+            $scope.AuthDetails.usrName = ""; // Reset the name if it is not unique
+        } else {
+
+            // Making the values adhere to the endpoint rule
+            $scope.AuthDetails.name = $scope.AuthDetails.usrName;
+            $scope.AuthDetails.password = $scope.AuthDetails.usrPasswd;
+
+            RegisterService.Auth(endpoint, $scope.AuthDetails).then(function(response){
+                noValidation();
+                // authDetails in sessionStorage is updated after each new submission
+                sessionStorage.removeItem('authDetails');
+                collectAuth();
+                $('#registerModal').modal('hide');
+                $scope.$apply($scope.AuthDetails = {});
+            });
+            }       
+    }
+
+    $scope.discardModal = function(){
+        noValidation();
+        $scope.$apply($scope.AuthDetails = {});
     }
 
   }).
