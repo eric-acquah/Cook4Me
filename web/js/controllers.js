@@ -393,13 +393,18 @@ angular.module('liveApp.controllers', []).
                 collectAuth();
                 $('#registerModal').modal('hide');
                 $scope.$apply($scope.AuthDetails = {});
+
+                // Toggles the submit and modal button
+                $scope.notSubmitted = true;
+                $scope.submitted = false;
             });
             }       
     }
 
     $scope.discardModal = function(){
         noValidation();
-        $scope.$apply($scope.AuthDetails = {});
+        $scope.AuthDetails.usrName = "";
+        $scope.AuthDetails.usrPasswd = "";
     }
 
   }).
