@@ -22,4 +22,5 @@ class LoginModel(BaseModel):
             'usrName': "",
             'usrPasswd': "",
             'usrObjId': "",
+            'usrClass': "",
         }

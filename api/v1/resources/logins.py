@@ -50,7 +50,7 @@ def createLogin():
 
     """
 
-    strict_args = ['name', 'password', 'id']
+    strict_args = ['name', 'password', 'id', 'class']
 
     if not request.get_json():
         abort(400, description="Invalid input. Input format must be json serializable")
@@ -59,13 +59,14 @@ def createLogin():
 
     for name in strict_args:
         if name not in data:
-            abort(400, description="Fields name, password and id are mandatory")
+            abort(400, description="Fields: name, password, id and class are mandatory")
 
     login = LoginModel()
 
     login.usrIdentity['usrName'] = data['name']
     login.usrIdentity['usrPasswd'] = data['password']
     login.usrIdentity['usrObjId'] = data['id']
+    login.usrIdentity['usrClass'] = data['class']
 
     stats = login.save(True)
 
@@ -99,6 +100,8 @@ def updateLogin(login_id):
             login.usrIdentity['usrObjId'] = data.get('id')
         if name == "password":
             login.usrIdentity['usrPasswd'] = data.get('password')
+        if name == "class":
+            login.usrIdentity['usrClass'] = data.get('class')
 
     stats = login.update()
 
