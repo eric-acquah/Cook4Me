@@ -9,6 +9,8 @@ angular.module('liveApp.services', [])
                 $http.get(url + endpoint).then(function(response){
                     resolve(response.data)
                     // console.log(response.data)
+                }, function(error){
+                    reject(error);
                 });
             });
         }
@@ -107,6 +109,49 @@ angular.module('liveApp.services', [])
             FlaskApiService.postData(endpoint, angular.toJson(data)).then(function(response){
                 resolve(response);
             });
+        });
+    }
+
+    registration.noValidation =  function(){
+
+        angular.element(document.querySelectorAll('.form-control, .form-select')).each(function(){
+            const input = angular.element(this);
+            if (input.hasClass('ng-invalid')){
+                input.removeClass('is-invalid')
+            } else {
+                input.removeClass('is-invalid');
+            };
+        });
+    }
+
+    // Retrieve all auth data into sessionStorage
+    registration.collectAuth = function (){
+        let authDetails = [];
+
+        if (sessionStorage.getItem('authDetails') == null){
+
+            registration.allAuth('logins').then(function(response){
+                for (let obj in response){
+                    authDetails.push(response[obj]);
+                }
+    
+                sessionStorage.setItem('authDetails', angular.toJson(authDetails));
+    
+                console.log(sessionStorage.getItem('authDetails'));
+            });
+        }
+    };
+
+    // Triggers 'is-invalid' classes
+    registration.notValid = function (cls){
+
+        angular.element(document.querySelectorAll(cls)).each(function(){
+            const input = angular.element(this);
+            if (input.hasClass('ng-invalid')){
+                input.addClass('is-invalid');
+            } else {
+                input.removeClass('is-invalid');
+            };
         });
     }
 

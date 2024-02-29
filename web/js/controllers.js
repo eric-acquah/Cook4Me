@@ -90,8 +90,112 @@ angular.module('liveApp.controllers', []).
    
   }).
   /* Login Controller */
-  controller('LoginPageController', function($scope, restAPIservice) {
-   
+  controller('LoginPageController', function($scope, $timeout, RegisterService, FlaskApiService) {
+    
+        $scope.login = {};
+
+    RegisterService.collectAuth()
+
+    /*##### HELPER FUNCTIONS START #####*/
+
+    // Validate user login details
+    function validateLogin(usrname, passwd){
+        let authStore = sessionStorage.getItem('authDetails');
+
+        if (authStore == null){
+            return null;
+        }
+
+        authStore = angular.fromJson(authStore); // convert back into array object
+
+        let deliverables = {};
+
+        for (let obj in authStore){
+            if (authStore[obj].usrIdentity.usrName == usrname && 
+                authStore[obj].usrIdentity.usrPasswd == passwd ){
+                deliverables.id = authStore[obj].usrIdentity.usrObjId;
+                deliverables.class = authStore[obj].usrIdentity.usrClass;
+                return deliverables;
+            }
+        }
+
+        return false;
+    }
+
+     // Count down 10s to remove success feedback view
+     $scope.countdown = 0; // Initial counter
+
+     $scope.startCountdown = function() {
+       $scope.countdown = 10;
+ 
+       const countdownTimer = $timeout(function updateCountdown() {
+         $scope.countdown--;
+         if ($scope.countdown > 0) {
+           $timeout(updateCountdown, 1000); // Recursive call for each second
+         } else {
+           // Countdown finished - Do something here
+           $scope.loginSuccess = false;
+         }
+       }, 1000); 
+     };
+
+
+     /*##### HELPER FUNCTIONS END #####*/
+    
+    $scope.submitLogin = function (){
+
+        if ($scope.LoginForm.$invalid && $scope.LoginForm.$submitted){
+            // Triggers 'is-invalid' classes
+            RegisterService.notValid('.form-control');
+        } else {
+            const result = validateLogin($scope.login.name, $scope.login.password);
+
+            if (result == false){
+                $scope.invalidLogin = true;
+            } else if (result == null){
+                $scope.tryAgain = true;
+            } else {
+
+                const endpoint = result.class + "s/" + result.id;
+
+                FlaskApiService.getData(endpoint).then(function(response){
+                    console.log(response);
+                    // store object in session storage
+                    if (sessionStorage.getItem('usrSession') == null){
+                        sessionStorage.setItem('usrSession', angular.toJson(response));
+                        sessionStorage.setItem('state', angular.toJson(true));
+                    } else {
+                        // Avoids duplacate sessionStorage key error
+                        sessionStorage.removeItem('usrSession');
+                        sessionStorage.setItem('usrSession', angular.toJson(response));
+                        sessionStorage.setItem('state', angular.toJson(true));                     
+                    }
+                });
+
+                    const resolve = sessionStorage.getItem('state');
+
+                    if (resolve != null){
+                        $scope.loginSuccess = angular.fromJson(resolve);
+                        sessionStorage.removeItem('state');
+                    }
+
+                    // Disable all invalid feedbacks when everything is successful
+                    $scope.invalidLogin = false;
+                    $scope.tryAgain = false;
+    
+                    // Clear the form field after submission
+                    $scope.login = {};
+                    RegisterService.noValidation();
+                    $scope.LoginForm.$setPristine();
+                    $scope.LoginForm.$setUntouched();
+                    
+                    // Remove success feedback
+                    $scope.startCountdown();
+            }
+        }
+    }
+
+
   }).
   /* Register Controller */
   controller('RegisterPageController', function($scope, RegisterService) {
@@ -159,28 +263,10 @@ angular.module('liveApp.controllers', []).
     $scope.speciality = {};
     $scope.AuthDetails = {};
 
-    collectAuth();
+    // Retrieve all auth data into sessionStorage
+    RegisterService.collectAuth();
 
     /*###### HELPER FUNCTIONS START #######*/
-
-    // Retrieve all auth data into sessionStorage
-    function collectAuth(){
-
-        let authDetails = [];
-
-        if (sessionStorage.getItem('authDetails') == null){
-
-            RegisterService.allAuth('logins').then(function(response){
-                for (let obj in response){
-                    authDetails.push(response[obj]);
-                }
-    
-                sessionStorage.setItem('authDetails', angular.toJson(authDetails));
-    
-                console.log(sessionStorage.getItem('authDetails'));
-            });
-        }
-    };
  
     // Check uniqueness of username
     function UsrNameIsUnique(usrname){
@@ -201,19 +287,6 @@ angular.module('liveApp.controllers', []).
     function setSpeciality(){
         Object.keys($scope.domain).forEach(category => {
             $scope.speciality[category] = [];
-        });
-    }
-
-    // Triggers 'is-invalid' classes
-    function notValid(cls){
-
-        angular.element(document.querySelectorAll(cls)).each(function(){
-            const input = angular.element(this);
-            if (input.hasClass('ng-invalid')){
-                input.addClass('is-invalid');
-            } else {
-                input.removeClass('is-invalid');
-            };
         });
     }
 
@@ -244,23 +317,13 @@ angular.module('liveApp.controllers', []).
 
         return password;
     }
-
-    function noValidation(){
-        angular.element(document.querySelectorAll('.form-control, .form-select')).each(function(){
-            const input = angular.element(this);
-            if (input.hasClass('ng-invalid')){
-                input.removeClass('is-invalid')
-            } else {
-                input.removeClass('is-invalid');
-            };
-        });
-    }
-
+  
 
     function dataSanitationFactory(){
         if ($scope.registerForm.$invalid && $scope.registerForm.$submitted){
 
-            notValid('.form-control, .form-select');
+            // Triggers 'is-invalid' classes
+            RegisterService.notValid('.form-control, .form-select');
 
             // sanitize cook's speciality data
             for (let key in $scope.speciality){
@@ -337,7 +400,7 @@ angular.module('liveApp.controllers', []).
 
                 $scope.$apply($scope.submitRegister = {}); // Clears form field after submission
 
-                noValidation(); // Prevents validation after clearing form field
+                RegisterService.noValidation(); // Prevents validation after clearing form field
 
             });
             
@@ -346,7 +409,7 @@ angular.module('liveApp.controllers', []).
 
             console.log($scope.submitRegister)
 
-            RegisterService.registerCook(endpoint, $scope.submitRegister).then(function(response){
+            RegisterService.registerClient(endpoint, $scope.submitRegister).then(function(response){
                 console.log(response);
 
                 $scope.AuthDetails.id = response.id;
@@ -358,7 +421,7 @@ angular.module('liveApp.controllers', []).
 
                 $scope.$apply($scope.submitRegister = {}); // Clears form field after submission
 
-                noValidation(); // Prevents validation after clearing form field
+                RegisterService.noValidation(); // Prevents validation after clearing form field
                 
             });
 
@@ -372,7 +435,8 @@ angular.module('liveApp.controllers', []).
         // Validate input before submission
         if ($scope.loginDetails.$invalid && $scope.loginDetails.$submitted){
             
-            notValid('.form-control');
+            // Triggers 'is-invalid' classes
+            RegisterService.notValid('.form-control');
         }
 
         // check uniqueness of the username entered
@@ -387,10 +451,10 @@ angular.module('liveApp.controllers', []).
             $scope.AuthDetails.password = $scope.AuthDetails.usrPasswd;
 
             RegisterService.Auth(endpoint, $scope.AuthDetails).then(function(response){
-                noValidation();
+                RegisterService.noValidation();
                 // authDetails in sessionStorage is updated after each new submission
                 sessionStorage.removeItem('authDetails');
-                collectAuth();
+                RegisterService.collectAuth();
                 $('#registerModal').modal('hide');
                 $scope.$apply($scope.AuthDetails = {});
 
@@ -402,14 +466,14 @@ angular.module('liveApp.controllers', []).
     }
 
     $scope.discardModal = function(){
-        noValidation();
+        RegisterService.noValidation();
         $scope.AuthDetails.usrName = "";
         $scope.AuthDetails.usrPasswd = "";
     }
 
   }).
   /* About Controller */
-  controller('AboutPageController', function($scope, restAPIservice) {
+  controller('AboutPageController', function($scope) {
    
   }).
   /* Feed Controller */

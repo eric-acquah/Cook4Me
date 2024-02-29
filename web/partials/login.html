@@ -12,8 +12,11 @@
     </div>
     <div class="row">
         <div class="col-sm-4 center">
-            <div class="card mt-5 mb-5 pr pl pt-5 pb-5">
-                <div class="row">
+            <div ng-show="loginSuccess" class="alert alert-success mb-0 border-bottom-0 border-1 border-success ng-hide" role="alert">
+                You are Successfully Logged in!
+              </div>
+            <div class="card mt-0 mb-5 pr pl pt-5 pb-5">
+                <form name="LoginForm" class="row" ng-submit="submitLogin()" novalidate>
                     <div class="col-sm-12 mb-4">
                         <h3>Login</h3>
                     </div>
@@ -21,24 +24,38 @@
                     <div class="col-sm-12">
                         <div class="mb-3">
                             <label for="uname" class="form-label">User Name</label>
-                            <input title="dd" type="text" class="form-control" name="uname" id="uname" aria-describedby="helpId" placeholder="" />
+                            <input title="dd" type="text" class="form-control" name="uname" id="uname" aria-describedby="helpId"
+                            ng-class="{'is-invalid': LoginForm.uname.$invalid && LoginForm.uname.$touched}" ng-model="login.name" required>
+                            <div class="invalid-feedback">
+                                Please enter your username
+                            </div>
                         </div>
                     </div>
                     
                     <div class="col-sm-12">
                         <div class="mb-3">
                             <label for="pwd" class="form-label">Password</label>
-                            <input title="pwd" type="text" class="form-control" name="pwd" id="pwd" aria-describedby="helpId" placeholder="" />
+                            <input title="pwd" type="text" class="form-control" name="pwd" id="pwd" aria-describedby="helpId"
+                            ng-class="{'is-invalid': LoginForm.pwd.$invalid && LoginForm.pwd.$touched}" ng-model="login.password" required>
+                            <div class="invalid-feedback">
+                                Please enter your password
+                            </div>
                         </div>
+                    </div>
+                    <div ng-show="invalidLogin" class="text-danger ng-hide">
+                        Invalid username or password
+                    </div>
+                    <div ng-show="tryAgain" class="text-danger  ng-hide">
+                        Something went wrong, try again later...
                     </div>
 
                     <div class="col-sm-12 mt-5 text-xxl-end">
-                        <button type="button" class="btn btn-success btn-submit" >
+                        <button type="submit" class="btn btn-success btn-submit" >
                             Login
                         </button>
                         
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
